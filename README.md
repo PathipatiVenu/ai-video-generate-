@@ -9,6 +9,7 @@ so changing the voice automatically re-times every scene.
 |---|---|---|
 | `DockerInstall` | "Docker Installation on Windows 11" — step-by-step tutorial | ~68.6 s |
 | `HeatedGloves` | "Electric Heated Gloves" — product advertisement | ~44.1 s |
+| `Panchayat` | "Panchayat Elections in India – Explained Simply!" — civic explainer | ~115 s |
 | `MyComp` | Empty starter composition from the Remotion template | — |
 
 Everything runs on a normal laptop — no GPU and no paid API needed.
@@ -66,7 +67,7 @@ Then open **http://localhost:3000** in your browser.
 
 - In the left sidebar open the **Shorts** folder and click **DockerInstall** or **HeatedGloves**.
 - Press **Space** to play, scrub the timeline, and listen with sound on.
-- Direct links: http://localhost:3000/DockerInstall and http://localhost:3000/HeatedGloves
+- Direct links: http://localhost:3000/DockerInstall, http://localhost:3000/HeatedGloves and http://localhost:3000/Panchayat
 - Stop Studio with **Ctrl + C** in the terminal.
 
 ---
@@ -78,6 +79,7 @@ Open a second terminal in the project folder (or stop Studio first) and run:
 ```
 npx remotion render DockerInstall out/docker-install.mp4
 npx remotion render HeatedGloves out/heated-gloves.mp4
+npx remotion render Panchayat out/panchayat-elections.mp4
 ```
 
 - The finished files appear in the `out/` folder (this folder is git-ignored).
@@ -120,6 +122,7 @@ pip install edge-tts numpy scipy pillow
 ```
 python tools/docker-install/make_audio.py
 python tools/heated-gloves/make_audio.py
+python tools/panchayat/make_audio.py
 ```
 
 All SFX and BGM are synthesized from code (no samples), so there are no music-licensing issues.
@@ -189,17 +192,24 @@ JPG frames are written to `out/stills/`.
 │   │   ├── components/           # Shared toolkit: grid background, camera, Ken Burns, windows,
 │   │   │                         #   cursor, icons, confetti, scene transitions, Beat/Sfx helpers
 │   │   └── scenes/               # Hook, Step1–Step4, Ending
-│   └── HeatedGloves/
-│       ├── HeatedGloves.tsx      # Main composition
+│   ├── HeatedGloves/
+│   │   ├── HeatedGloves.tsx      # Main composition
+│   │   ├── timeline.ts, voice.ts, theme.ts
+│   │   ├── components/fx.tsx     # Snow, frost, thermometer, heat glow, USB plug, tap ripples, labels
+│   │   └── scenes/               # Hook, Intro, Features, Styles, Price, Cta
+│   └── Panchayat/
+│       ├── Panchayat.tsx         # Main composition (7 scenes)
 │       ├── timeline.ts, voice.ts, theme.ts
-│       ├── components/fx.tsx     # Snow, frost, thermometer, heat glow, USB plug, tap ripples, labels
-│       └── scenes/               # Hook, Intro, Features, Styles, Price, Cta
+│       ├── components/kit.tsx    # Icons, photo cards, section badges, flag card
+│       └── scenes/               # Intro, Part1–Part5, Ending
 ├── public/
 │   ├── docker-install/           # images/, voice/, sfx/, bgm/, CREDITS.md
-│   └── heated-gloves/            # images/, voice/, sfx/, bgm/, CREDITS.md
+│   ├── heated-gloves/            # images/, voice/, sfx/, bgm/, CREDITS.md
+│   └── panchayat/                # images/, voice/, sfx/, bgm/, CREDITS.md
 ├── tools/
 │   ├── docker-install/           # make_voice.py, make_audio.py, stills.mjs, README.md
-│   └── heated-gloves/            # crop_product.py, make_voice.py, make_audio.py, stills.mjs, README.md
+│   ├── heated-gloves/            # crop_product.py, make_voice.py, make_audio.py, stills.mjs, README.md
+│   └── panchayat/                # make_voice.py, make_audio.py, README.md
 ├── remotion.config.ts            # Remotion CLI settings
 ├── package.json                  # npm scripts: dev, build, lint
 └── out/                          # Rendered MP4s and stills (git-ignored)
@@ -244,7 +254,7 @@ JPG frames are written to `out/stills/`.
 ## 11. Credits & licences
 
 - Image, voice and sound-effect sources and licences are listed in
-  `public/docker-install/CREDITS.md` and `public/heated-gloves/CREDITS.md`.
+  `public/docker-install/CREDITS.md`, `public/heated-gloves/CREDITS.md` and `public/panchayat/CREDITS.md`.
   Some photos are **CC BY / CC BY-SA** — paste the credit line from those files into your post description.
 - Product photos in `public/heated-gloves/images/` come from the product listing image.
 - Docker, Windows and Walmart names/logos are trademarks of their owners; they appear only to describe the products.
